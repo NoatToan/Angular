@@ -1,0 +1,31 @@
+<p>
+    <mat-form-field appearance="legacy">
+        <mat-label>Filter Scope</mat-label>
+        <input [(ngModel)]="searchScope" matInput placeholder="">
+    </mat-form-field>
+</p>
+<p>
+    <mat-form-field appearance="standard">
+        <mat-label>Filter Controller</mat-label>
+        <input [(ngModel)]="searchScopeChild" matInput placeholder="">
+    </mat-form-field>
+</p>
+<ng-template #noResults>
+    <p>No results found for "{{searchScope}}".</p>
+</ng-template>
+
+<mat-list>
+    <div #permission_id *ngFor='let scope of scopes  | filter:searchScope'>
+        <div mat-subheader>{{scope.id}}</div>
+        <!-- <mat-list-item *ngFor="let ss of scope.description | filter:searchScopeChild">
+            <mat-icon mat-list-icon>Folder</mat-icon>
+            <div mat-line>
+                <p>{{ss}}</p>
+            </div>
+        </mat-list-item> -->
+        <section class="" *ngIf="userScope">
+            <mat-checkbox [checked]="checkedBox(scope.id)" (ngModelChange)="onAuth($event,scope.id)"></mat-checkbox>
+        </section>
+        <mat-divider></mat-divider>
+    </div>
+</mat-list>
