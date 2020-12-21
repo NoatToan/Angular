@@ -1,11 +1,11 @@
 import { Component, OnInit,AfterViewInit, ViewChild, ViewContainerRef } from '@angular/core';
-import { UserService} from '../../services/user.service';
 import { MatTableDataSource} from '@angular/material/table';
-import { UserModel} from '../../models/user.model'
+import { UserModel} from '../../../models/user.model'
 import { MatPaginator} from '@angular/material/paginator';
 import { UserPermissionComponent } from '../user-permission/user-permission.component';
 import { exit } from 'process';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UserService } from 'src/app/services/user.service';
 @Component({
   selector: 'app-user-list',
   templateUrl: './user-list.component.html',

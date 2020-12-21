@@ -22,9 +22,9 @@ import {MatListModule} from '@angular/material/list';
 import {MatIconModule} from '@angular/material/icon';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { FilterPipe } from './user/pipe/filter-custom.pipe';
-import { UserModule } from './user/user.module';
-import { UserComponent } from './user/user.component';
+import { FilterPipe } from './admin/pipe/filter-custom.pipe';
+import { AdminModule } from './admin/admin.module';
+import { AdminComponent } from './admin/admin.component';
 import { SharedModule } from './shared/shared.module';
 @NgModule({
   declarations: [
@@ -33,7 +33,7 @@ import { SharedModule } from './shared/shared.module';
     LoginComponent,
     LogoutComponent,
     LogoutComponent,
-    UserComponent,
+    AdminComponent,
     // FilterPipe,
     
   ],

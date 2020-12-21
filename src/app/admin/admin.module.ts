@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UserRoutingModule } from './user-routing.module';
+import { AdminRoutingModule } from './admin-routing.module';
 import { SharedModule } from '../shared/shared.module';
-import { FormsModule } from '@angular/forms';
-import { UserListComponent } from './user-list/user-list.component';
-import { UserDetailComponent } from './user-detail/user-detail.component';
-import { UserPermissionComponent } from './user-permission/user-permission.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UserListComponent } from './user/user-list/user-list.component';
+import { UserDetailComponent } from './user/user-detail/user-detail.component';
+import { UserPermissionComponent } from './user/user-permission/user-permission.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTableModule } from '@angular/material/table';
@@ -21,6 +21,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { UserService } from '../services/user.service';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatSelectModule } from '@angular/material/select';
 @NgModule({
   declarations: [
     UserListComponent,
@@ -31,7 +32,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
   ],
   imports: [
     CommonModule,
-    UserRoutingModule,
+    AdminRoutingModule,
     // SharedModule,
     FormsModule,
     // Ang mat
@@ -51,10 +52,12 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatTabsModule,
     MatSidenavModule,
     MatCheckboxModule,
+    MatSelectModule,
+    ReactiveFormsModule,
   ],
   providers: [UserService],
   exports:[
   ]
-  
+
 })
-export class UserModule { }
+export class AdminModule { }

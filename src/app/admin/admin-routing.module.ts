@@ -2,34 +2,43 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '../auth.guard';
-import { UserDetailComponent } from './user-detail/user-detail.component';
-import { UserListComponent } from './user-list/user-list.component';
-import { UserPermissionComponent } from './user-permission/user-permission.component';
-import { UserComponent } from './user.component';
+import { UserDetailComponent } from './user/user-detail/user-detail.component';
+import { UserListComponent } from './user/user-list/user-list.component';
+import { UserPermissionComponent } from './user/user-permission/user-permission.component';
+import { AdminComponent } from './admin.component';
 
 
 const routes: Routes = [
-  // {
-  //     path: 'user',
-  //     component: UserComponent,
-  //     children: [
+  {
+      path: 'user',
+      component: AdminComponent,
+      children: [
 
         {
           path: 'permission/:id',
           component: UserPermissionComponent,
         },
-
         {
           path: '',
           component: UserListComponent,
-          // canActivate:[AuthGuard]
+          canActivate:[AuthGuard]
         },
         // {
         //   path: ':slug',
         //   component: UserDetailComponent
         // }
-  //     ]
-  // }
+      ]
+  },
+  {
+    path: 'permission',
+    component: AdminComponent,
+    children: [
+      {
+        path: '',
+        component: UserPermissionComponent,
+      },
+    ]
+}
 ];
 @NgModule({
   // imports: [CommonModule,RouterModule.forChild(routes)],
@@ -37,4 +46,4 @@ const routes: Routes = [
   declarations: [],
   exports: [RouterModule]
 })
-export class UserRoutingModule { }
+export class AdminRoutingModule { }

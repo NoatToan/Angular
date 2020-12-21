@@ -1,0 +1,40 @@
+<div class="container-fluid">
+    <div class="row">
+        <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+
+            <div class="position-sticky pt-3">
+                <div class="" id="">
+                    <ul class="navbar-nav mr-auto">
+                        <!-- <li class="nav-item">
+                        <a class="nav-link" routerLink="/events" routerLinkActive="active">Events</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/special" routerLinkActive="active">Members</a>
+                    </li> -->
+                        <li class="nav-item">
+                            <a class="nav-link text-primary" routerLink="/admin/user" routerLinkActive="active">Admin</a>
+                        </li>
+                    </ul>
+                </div>
+                <ul class="nav flex-column position-sticky text-secondary  ">
+                    <li class="nav-item">
+                        <a class="nav-link text-secondary" routerLink="/admin/user" routerLinkActive="active">
+                          Users</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-secondary" routerLink="/admin/permission" routerLinkActive="active">Permission</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <!-- <div class="d-flex align-items-center p-3 my-3bg-purple rounded shadow-sm">
+                <div class="lh-1">
+                    <h1 class="h6 mb-0 lh-1">Bootstrap</h1>
+                    <small>Since 2011</small>
+                </div>
+            </div> -->
+            <router-outlet></router-outlet>
+        </main>
+    </div>
+</div>

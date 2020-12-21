@@ -1,0 +1,132 @@
+<div class="">
+    <!-- <div class="accordion" id="accordionExample"> -->
+    <div class="accordion">
+        <div class="card">
+            <div class="card-header" id="headingOne">
+                <h2 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              Search
+            </button>
+                </h2>
+            </div>
+            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm">
+                            <mat-form-field appearance="standard">
+                                <mat-label>Filter Scope</mat-label>
+                                <input [(ngModel)]="searchScope" matInput placeholder="">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm">
+                            <mat-form-field appearance="standard">
+                                <mat-label>Filter Controller</mat-label>
+                                <input [(ngModel)]="searchScopeChild" matInput placeholder="">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card" *ngIf="!userId">
+            <div class="card-header" id="headingTwo">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+              Create Scope
+            </button>
+                </h2>
+            </div>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm">
+                            <mat-form-field appearance="standard">
+                                <mat-label>Scope Name</mat-label>
+                                <input matInput placeholder="">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm">
+                            <mat-form-field appearance="standard">
+                                <mat-label>Filter Controller</mat-label>
+                                <input matInput placeholder="">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <ul class="list-inline m-0">
+                            <li class="list-inline-item">
+                                <button class="btn btn-primary btn-sm rounded-0" (click)="createScope($event,123)" type="button" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add"><i class="fa fa-table"></i></button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #noResults>
+    <p>No results found for "{{searchScope}}".</p>
+</ng-template>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <!-- <th scope="col">#</th> -->
+            <th scope="col">
+                Scope
+            </th>
+            <th scope="col">Permission</th>
+            <th scope="col" *ngIf="!userId">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr #permission_id *ngFor="let scope of scopes | filter:searchScope">
+            <!-- <th scope="row">{{ i + 1 }}</th> -->
+            <td>
+                <mat-checkbox *ngIf="userScope && userId" [checked]="checkScopeUser(scope.id)" (change)="setScope($event,scope.id)"></mat-checkbox>
+                {{ scope.name}}
+
+            </td>
+
+            <td>
+                <div class="row">
+                    <div class="col-sm" *ngIf="!userId">
+                        <mat-form-field>
+                            <!-- <mat-select placeholder="Update Permission" [(ngModel)]="selectedFood1" (change)="onFoodSelection1()" multiple> -->
+                            <mat-select placeholder="Update Permission" multiple>
+                                <div *ngFor="let perm of permissions">
+                                    <mat-option [value]="perm.id" (click)="updatePermission($event,perm.id,scope.id)">
+                                        <!-- <mat-option *ngIf="perm.scope_id==scope.id" [value]="perm.id" (click)="updatePermission($event,perm.id,17)"> -->
+                                        {{ perm.name?perm.name:perm.uri }}
+                                    </mat-option>
+                                </div>
+                            </mat-select>
+                            <mat-hint></mat-hint>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div *ngFor="let perm of scope.permission | filter:searchScopeChild">
+                    <!-- <div *ngIf="perm.scope_id == scope.id"> -->
+                    <div>
+                        <!-- <section class="m-2" *ngIf="perm.scope_id == scope.id"> -->
+                        <section class="m-2">
+                            <li class="list-inline-item" *ngIf="perm.name || perm.uri">
+                                <!-- <button *ngIf="!userId" class="btn btn-danger btn-sm rounded-5" type="button" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><i class="fa fa-trash"></i></button> -->
+                                {{perm.name?perm.name:perm.uri}}
+                            </li>
+                        </section>
+                    </div>
+                </div>
+            </td>
+
+            <td *ngIf="!userId">
+                <!-- Call to action buttons -->
+                <ul class="list-inline m-0">
+                    <li class="list-inline-item">
+                        <button class="btn btn-danger btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><i class="fa fa-trash"></i></button>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    </tbody>
+</table>
