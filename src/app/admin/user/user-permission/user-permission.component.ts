@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import {MatTableDataSource} from '@angular/material/table';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { AlertsService } from 'angular-alert-module';
+import { AuthService } from 'src/app/auth.service';
 import { ScopePermissionService } from 'src/app/services/scope-permission.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -14,7 +16,12 @@ import { UserService } from 'src/app/services/user.service';
 export class UserPermissionComponent implements OnInit {
 
   userId: string;
-  constructor(private _route: ActivatedRoute, private _userService: UserService, private _scopePermissionService:ScopePermissionService) {
+  constructor(private _router:Router,
+     private _route: ActivatedRoute,
+      private _userService: UserService,
+       private _scopePermissionService:ScopePermissionService,
+        private _alerts:AlertsService,
+        private _auth:AuthService) {
 
   }
   searchScope=null;
@@ -27,8 +34,7 @@ export class UserPermissionComponent implements OnInit {
   permissions=[];
 
   // Create Scope Permission System
-  newScopeName:string;
-
+  newScopeInput:string;
 
   ngOnInit(): void {
     //Get scope from API
@@ -36,6 +42,10 @@ export class UserPermissionComponent implements OnInit {
       res=>{
         this.scopes=res['listScope']
         this.permissions=res['listPermission']
+    },
+    error =>{
+      this._alerts.setMessage(error.message,'error');
+      this._auth.logoutUser();
     })
 
     this.userId = this._route.snapshot.paramMap.get('id');
@@ -47,6 +57,9 @@ export class UserPermissionComponent implements OnInit {
       Object.keys(res['scope']).some(k =>{arrUserPermission.push(res['scope'][k]['scope_id']);})
       this.userScope=arrUserScope
       this.userPermission=arrUserPermission
+    },
+    error =>{
+      this._alerts.setMessage(error.message,'error');
     })
   }
 
@@ -58,24 +71,45 @@ export class UserPermissionComponent implements OnInit {
     let scopeId=id
     if(this.userId){
       let res=this._userService.setUserScopePermission(this.userId,scopeId).subscribe(res=>{
-        console.log(res)
+        this._alerts.setMessage('Success','success');
+      },
+      error =>{
+        this._alerts.setMessage(error.message,'error');
       });
     }
   }
-  createScope(event,newScopeName){
-    this.newScopeName=newScopeName
-    console.log(this.newScopeName)
+  createScope(value){
+    this._scopePermissionService.createScope(value).subscribe(
+      res=>{
+        this._alerts.setMessage('Create scope','success');
+        this.ngOnInit();
+      },
+      err=>{
+        this._alerts.setMessage(err.message,'error');
+      }
+    )
+  }
+  deleteScope(scopeId){
+    this._scopePermissionService.deleteScope(scopeId).subscribe(
+      res=>{
+        this._alerts.setMessage('Deleted','success');
+        this.ngOnInit();
+      },
+      err=>{
+        this._alerts.setMessage(err.message,'error');
+      }
+    )
   }
   updatePermission(event,permissionId,scopeId){
-    let create=this._scopePermissionService.setScopePermission(scopeId,permissionId,0).subscribe(res=>{});
-    let del=this._scopePermissionService.setScopePermission(scopeId,permissionId,1).subscribe(res=>{});
-
     Object.keys(this.scopes).some(key=>{
       if(this.scopes[key]['id']==scopeId){
           let isExistPermission=false;
           //Del Permission
           this.scopes[key]['permission']=this.scopes[key]['permission'].filter( k =>{
-            if(k.id == permissionId) {isExistPermission=true;del;};
+            if(k.id == permissionId) {
+              isExistPermission=true;
+              this.deletePermission(scopeId, permissionId);
+            };
             return k.id != permissionId;
           })
           //Add Permission
@@ -92,10 +126,26 @@ export class UserPermissionComponent implements OnInit {
                 )
               ))
               this.scopes[key]['permission'].push(clonePermission);
-              create;
+              this.createPermission(scopeId, permissionId);
             }
           }
         }
+    });
+  }
+  createPermission(scopeId, permissionId){
+    this._scopePermissionService.setScopePermission(scopeId,permissionId,0).subscribe(res=>{
+      this._alerts.setMessage('Add Success','success');
+    },
+    err =>{
+      this._alerts.setMessage(err.message,'error');
+    });
+  }
+  deletePermission(scopeId, permissionId){
+    this._scopePermissionService.setScopePermission(scopeId,permissionId,1).subscribe(res=>{
+      this._alerts.setMessage('Remove Success','success');
+    },
+    err =>{
+      this._alerts.setMessage(err.message,'error');
     });
   }
 }

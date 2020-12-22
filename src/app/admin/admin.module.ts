@@ -22,6 +22,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import { UserService } from '../services/user.service';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
+import { AlertsModule } from 'angular-alert-module';
 @NgModule({
   declarations: [
     UserListComponent,
@@ -54,6 +55,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatCheckboxModule,
     MatSelectModule,
     ReactiveFormsModule,
+
   ],
   providers: [UserService],
   exports:[

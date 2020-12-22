@@ -43,20 +43,14 @@
                         <div class="col-sm">
                             <mat-form-field appearance="standard">
                                 <mat-label>Scope Name</mat-label>
-                                <input matInput placeholder="">
-                            </mat-form-field>
-                        </div>
-                        <div class="col-sm">
-                            <mat-form-field appearance="standard">
-                                <mat-label>Filter Controller</mat-label>
-                                <input matInput placeholder="">
+                                <input [(ngModel)]="newScopeInput" matInput placeholder="">
                             </mat-form-field>
                         </div>
                     </div>
                     <div class="row">
                         <ul class="list-inline m-0">
                             <li class="list-inline-item">
-                                <button class="btn btn-primary btn-sm rounded-0" (click)="createScope($event,123)" type="button" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add"><i class="fa fa-table"></i></button>
+                                <button class="btn btn-primary btn-sm rounded-0" (click)="createScope(newScopeInput)" type="button" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add"><i class="fa fa-table"></i></button>
                             </li>
                         </ul>
                     </div>
@@ -123,7 +117,7 @@
                 <!-- Call to action buttons -->
                 <ul class="list-inline m-0">
                     <li class="list-inline-item">
-                        <button class="btn btn-danger btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><i class="fa fa-trash"></i></button>
+                        <button (click)="deleteScope(scope.id)" class="btn btn-danger btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><i class="fa fa-trash"></i></button>
                     </li>
                 </ul>
             </td>

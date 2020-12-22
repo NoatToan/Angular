@@ -26,6 +26,7 @@ import { FilterPipe } from './admin/pipe/filter-custom.pipe';
 import { AdminModule } from './admin/admin.module';
 import { AdminComponent } from './admin/admin.component';
 import { SharedModule } from './shared/shared.module';
+import { AlertsModule, AlertsService } from 'angular-alert-module';
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,7 +36,7 @@ import { SharedModule } from './shared/shared.module';
     LogoutComponent,
     AdminComponent,
     // FilterPipe,
-    
+
   ],
   imports: [
     BrowserModule,
@@ -54,8 +55,9 @@ import { SharedModule } from './shared/shared.module';
     // MatIconModule,
     // MatFormFieldModule,
     // MatInputModule,
+    AlertsModule
   ],
-  providers: [AuthService,EventService,AuthGuard,{
+  providers: [AuthService,EventService,AuthGuard,AlertsService,{
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptorService,
     multi:true

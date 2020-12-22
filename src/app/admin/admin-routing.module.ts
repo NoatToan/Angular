@@ -6,6 +6,7 @@ import { UserDetailComponent } from './user/user-detail/user-detail.component';
 import { UserListComponent } from './user/user-list/user-list.component';
 import { UserPermissionComponent } from './user/user-permission/user-permission.component';
 import { AdminComponent } from './admin.component';
+import { AlertsModule } from 'angular-alert-module';
 
 
 const routes: Routes = [
