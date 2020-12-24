@@ -3,11 +3,10 @@ import { MatTableDataSource} from '@angular/material/table';
 import { UserModel} from '../../../models/user.model'
 import { MatPaginator} from '@angular/material/paginator';
 import { UserPermissionComponent } from '../user-permission/user-permission.component';
-import { exit } from 'process';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
-import { AlertsService } from 'angular-alert-module';
 import { AuthService } from 'src/app/auth.service';
+import { AlertService } from 'src/app/common/_alert';
 @Component({
   selector: 'app-user-list',
   templateUrl: './user-list.component.html',
@@ -18,7 +17,7 @@ export class UserListComponent implements OnInit {
   constructor(private _userService:UserService,
     private _router:Router,
     private route: ActivatedRoute,
-    private _alerts:AlertsService,
+    private _alerts:AlertService,
     private _auth:AuthService) {
 
    }
@@ -39,7 +38,7 @@ export class UserListComponent implements OnInit {
         this.users.paginator = this.paginator;
       },
       err=>{
-        this._alerts.setMessage(err,'error');
+        // this._alerts.setMessage(err,'error');
         this._auth.logoutUser();
       }
     )

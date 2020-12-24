@@ -1,3 +1,5 @@
+<ng-template #notUserPermission *ngIf="!userId">
+</ng-template>
 <div class="">
     <!-- <div class="accordion" id="accordionExample"> -->
     <div class="accordion">
@@ -86,11 +88,10 @@
                 <div class="row">
                     <div class="col-sm" *ngIf="!userId">
                         <mat-form-field>
-                            <!-- <mat-select placeholder="Update Permission" [(ngModel)]="selectedFood1" (change)="onFoodSelection1()" multiple> -->
+                            <!-- <mat-select placeholder="Update Permission" multiple [formControl]="selectedPermissionControl"> -->
                             <mat-select placeholder="Update Permission" multiple>
                                 <div *ngFor="let perm of permissions">
                                     <mat-option [value]="perm.id" (click)="updatePermission($event,perm.id,scope.id)">
-                                        <!-- <mat-option *ngIf="perm.scope_id==scope.id" [value]="perm.id" (click)="updatePermission($event,perm.id,17)"> -->
                                         {{ perm.name?perm.name:perm.uri }}
                                     </mat-option>
                                 </div>
@@ -98,14 +99,18 @@
                             <mat-hint></mat-hint>
                         </mat-form-field>
                     </div>
+                    <!-- <div class="col-sm" *ngIf="!userId">
+                        <select placeholder="Update Permission" multiple>
+                                  <option selected *ngFor="let perm of permissions" [value]="perm.id" (click)="updatePermission($event,perm.id,scope.id)">
+                                      {{ perm.name?perm.name:perm.uri }}
+                                  </option>
+                          </select>
+                    </div> -->
                 </div>
                 <div *ngFor="let perm of scope.permission | filter:searchScopeChild">
-                    <!-- <div *ngIf="perm.scope_id == scope.id"> -->
                     <div>
-                        <!-- <section class="m-2" *ngIf="perm.scope_id == scope.id"> -->
                         <section class="m-2">
                             <li class="list-inline-item" *ngIf="perm.name || perm.uri">
-                                <!-- <button *ngIf="!userId" class="btn btn-danger btn-sm rounded-5" type="button" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><i class="fa fa-trash"></i></button> -->
                                 {{perm.name?perm.name:perm.uri}}
                             </li>
                         </section>

@@ -1,10 +1,8 @@
-import { DataSource } from '@angular/cdk/table';
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import {MatTableDataSource} from '@angular/material/table';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { AlertsService } from 'angular-alert-module';
 import { AuthService } from 'src/app/auth.service';
+import { AlertService } from 'src/app/common/_alert';
 import { ScopePermissionService } from 'src/app/services/scope-permission.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -20,8 +18,9 @@ export class UserPermissionComponent implements OnInit {
      private _route: ActivatedRoute,
       private _userService: UserService,
        private _scopePermissionService:ScopePermissionService,
-        private _alerts:AlertsService,
-        private _auth:AuthService) {
+        private _auth:AuthService,
+        private _alerts:AlertService,
+        ) {
 
   }
   searchScope=null;
@@ -35,16 +34,27 @@ export class UserPermissionComponent implements OnInit {
 
   // Create Scope Permission System
   newScopeInput:string;
+  selectedPermission:string=null;
+  selectedPermissionControl = new FormControl(this.selectedPermission);
+
+  // Alert Option
+  options = {
+    autoClose: true,
+    keepAfterRouteChange: true
+  };
 
   ngOnInit(): void {
+
+
     //Get scope from API
     this._userService.getScopePermission().subscribe(
       res=>{
         this.scopes=res['listScope']
         this.permissions=res['listPermission']
+        this.selectedPermissionControl.setValue(res['listPermission'].map(k=>k.id))
     },
     error =>{
-      this._alerts.setMessage(error.message,'error');
+      this._alerts.error(error.message,this.options)
       this._auth.logoutUser();
     })
 
@@ -59,8 +69,10 @@ export class UserPermissionComponent implements OnInit {
       this.userPermission=arrUserPermission
     },
     error =>{
-      this._alerts.setMessage(error.message,'error');
+      this._alerts.error(error.message,this.options)
     })
+    console.log(this.selectedPermissionControl)
+
   }
 
   checkScopeUser(scopeId){
@@ -71,32 +83,32 @@ export class UserPermissionComponent implements OnInit {
     let scopeId=id
     if(this.userId){
       let res=this._userService.setUserScopePermission(this.userId,scopeId).subscribe(res=>{
-        this._alerts.setMessage('Success','success');
+          this._alerts.success('Success',this.options)
       },
       error =>{
-        this._alerts.setMessage(error.message,'error');
+        this._alerts.error(error.message,this.options);
       });
     }
   }
   createScope(value){
     this._scopePermissionService.createScope(value).subscribe(
       res=>{
-        this._alerts.setMessage('Create scope','success');
+          this._alerts.success('Create scope success',this.options)
         this.ngOnInit();
       },
-      err=>{
-        this._alerts.setMessage(err.message,'error');
+      error=>{
+        this._alerts.error(error.message,this.options);
       }
     )
   }
   deleteScope(scopeId){
     this._scopePermissionService.deleteScope(scopeId).subscribe(
       res=>{
-        this._alerts.setMessage('Deleted','success');
+        this._alerts.success('Deleted',this.options);
         this.ngOnInit();
       },
       err=>{
-        this._alerts.setMessage(err.message,'error');
+        this._alerts.error(err.message,this.options);
       }
     )
   }
@@ -134,18 +146,18 @@ export class UserPermissionComponent implements OnInit {
   }
   createPermission(scopeId, permissionId){
     this._scopePermissionService.setScopePermission(scopeId,permissionId,0).subscribe(res=>{
-      this._alerts.setMessage('Add Success','success');
+      this._alerts.success('Add Success',this.options)
     },
-    err =>{
-      this._alerts.setMessage(err.message,'error');
+    error =>{
+      this._alerts.error(error.message,this.options)
     });
   }
   deletePermission(scopeId, permissionId){
     this._scopePermissionService.setScopePermission(scopeId,permissionId,1).subscribe(res=>{
-      this._alerts.setMessage('Remove Success','success');
+      this._alerts.success('Remove Success',this.options)
     },
-    err =>{
-      this._alerts.setMessage(err.message,'error');
+    error =>{
+      this._alerts.error(error.message,this.options)
     });
   }
 }

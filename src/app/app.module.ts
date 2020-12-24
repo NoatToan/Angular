@@ -11,22 +11,12 @@ import { AuthService } from './auth.service';
 import { EventService } from './services/event.service';
 import { LogoutComponent } from './logout/logout.component';
 import { AuthGuard } from './auth.guard';
-import {TokenInterceptorService} from './token-interceptor.service';
+import { TokenInterceptorService  } from './token-interceptor.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatSliderModule } from '@angular/material/slider';
-import { MatTableModule } from '@angular/material/table'  ;
-import {MatPaginatorModule} from '@angular/material/paginator';
-import {MatTabsModule} from '@angular/material/tabs';
-import {MatMenuModule} from '@angular/material/menu';
-import {MatListModule} from '@angular/material/list';
-import {MatIconModule} from '@angular/material/icon';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { FilterPipe } from './admin/pipe/filter-custom.pipe';
-import { AdminModule } from './admin/admin.module';
+import {  MatMenuModule } from '@angular/material/menu';
 import { AdminComponent } from './admin/admin.component';
-import { SharedModule } from './shared/shared.module';
-import { AlertsModule, AlertsService } from 'angular-alert-module';
+import { AlertModule, AlertService } from './common/_alert';
+import { AlertsService } from 'angular-alert-module';
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,29 +25,17 @@ import { AlertsModule, AlertsService } from 'angular-alert-module';
     LogoutComponent,
     LogoutComponent,
     AdminComponent,
-    // FilterPipe,
-
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    // UserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatMenuModule,
-    // SharedModule,
-    // MatSliderModule,
-    // MatTableModule,
-    // MatPaginatorModule,
-    // MatTabsModule,
-    // MatListModule,
-    // MatIconModule,
-    // MatFormFieldModule,
-    // MatInputModule,
-    AlertsModule
+    AlertModule
   ],
-  providers: [AuthService,EventService,AuthGuard,AlertsService,{
+  providers: [AuthService,EventService,AuthGuard,{
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptorService,
     multi:true
