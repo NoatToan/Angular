@@ -34,7 +34,7 @@ export class UserListComponent implements OnInit {
     this._userService.getAll()
     .subscribe(
       res=> {
-        this.users = new MatTableDataSource<UserModel>(res);
+        this.users = new MatTableDataSource<UserModel>(res.data);
         this.users.paginator = this.paginator;
       },
       err=>{

@@ -27,7 +27,7 @@ export class UserPermissionComponent implements OnInit {
   searchScopeChild=null;
 
   userScope=[];
-  userPermission=[];
+  userPermission:any[]=[];
 
   scopes= [];
   permissions=[];
@@ -43,15 +43,16 @@ export class UserPermissionComponent implements OnInit {
     keepAfterRouteChange: true
   };
 
+
   ngOnInit(): void {
 
 
     //Get scope from API
     this._userService.getScopePermission().subscribe(
       res=>{
-        this.scopes=res['listScope']
-        this.permissions=res['listPermission']
-        this.selectedPermissionControl.setValue(res['listPermission'].map(k=>k.id))
+        this.scopes=res['data']['listScope']
+        this.permissions=res['data']['listPermission']
+        this.selectedPermissionControl.setValue(res['data']['listPermission'].map(k=>k.id))
     },
     error =>{
       this._alerts.error(error.message,this.options)
@@ -63,8 +64,8 @@ export class UserPermissionComponent implements OnInit {
     this._userService.getUserScopePermission(this.userId).subscribe(res=>{
       let arrUserScope=[];
       let arrUserPermission=[];
-      Object.keys(res['scope']).some(k =>{arrUserScope.push(res['scope'][k]['scope_id']);})
-      Object.keys(res['scope']).some(k =>{arrUserPermission.push(res['scope'][k]['scope_id']);})
+      Object.keys(res['data']['scope']).some(k =>{arrUserScope.push(res['data']['scope'][k]['scope_id']);})
+      Object.keys(res['data']['scope']).some(k =>{arrUserPermission.push(res['data']['scope'][k]['scope_id']);})
       this.userScope=arrUserScope
       this.userPermission=arrUserPermission
     },

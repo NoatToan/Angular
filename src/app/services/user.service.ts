@@ -7,10 +7,10 @@ import{HttpClient} from '@angular/common/http';
 export class UserService {
   //Express server
   // private _usersUrl="http://localhost:3000/api/users";
-  private _usersUrl="http://lrv.api/api/getAllUser";
+  private _usersUrl="http://lrv.api/api/user";
   private _getUserScopePermission="http://lrv.api/api/user/getScopeByUserId/";
   private _getScopePermission="http://lrv.api/api/scope/getScopePermission";
-  private _setUserScope="http://lrv.api/api/user/setUserScope";
+  private _setUserScope="http://lrv.api/api/user/userScope";
   constructor(private http:HttpClient) { }
 
   getAll(){
@@ -22,7 +22,7 @@ export class UserService {
   getScopePermission(){
     return this.http.get<any>(this._getScopePermission)
   }
-  setUserScopePermission(userId,ScopeId){
-    return this.http.get<any>(this._setUserScope+"/"+userId+"/" +ScopeId);
+  setUserScopePermission(userId,scopeId){
+    return this.http.post<any>(this._setUserScope,{'userId':userId,'scopeId':scopeId});
   }
 }

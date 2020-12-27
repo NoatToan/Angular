@@ -89,7 +89,7 @@
                     <div class="col-sm" *ngIf="!userId">
                         <mat-form-field>
                             <!-- <mat-select placeholder="Update Permission" multiple [formControl]="selectedPermissionControl"> -->
-                            <mat-select placeholder="Update Permission" multiple>
+                            <mat-select placeholder="Update Permission" multiple [formControl]="selectedPermissionControl">
                                 <div *ngFor="let perm of permissions">
                                     <mat-option [value]="perm.id" (click)="updatePermission($event,perm.id,scope.id)">
                                         {{ perm.name?perm.name:perm.uri }}
